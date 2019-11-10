@@ -22,11 +22,6 @@ klee::ExtractTypeMetaCheck::ExtractTypeMetaCheck(InterpreterHandler *ih) : llvm:
     metaOutFile = ih->openOutputFile(KLEE_META_FILENAME);
 }
 
-klee::ExtractTypeMetaCheck::~ExtractTypeMetaCheck() {
-	delete metaOutFile;
-}
-
->>>>>>> 681b1f5944d2c487bc676e35e697f18ad7099676
 void klee::ExtractTypeMetaCheck::writeLine(std::string line) {
 	if (metaOutFile) {
 		metaOutFile->write(line.c_str(), line.length());
