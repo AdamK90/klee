@@ -18,7 +18,11 @@
 #include "llvm/IR/Constants.h"
 #include "llvm/IR/Instructions.h"
 #include "llvm/IR/Module.h"
+#include "llvm/IR/Type.h"
 #include "llvm/Pass.h"
+#include "llvm/Support/raw_ostream.h"
+
+#include <string>
 
 namespace llvm {
 class Function;
@@ -38,6 +42,7 @@ class ExtractTypeMetaCheck : public llvm::ModulePass {
   static char ID;
   static const char* KLEE_META_FILENAME;
   std::unique_ptr<llvm::raw_fd_ostream> metaOutFile;
+  InterpreterHandler *ih;
   bool isEndiannessWritten;
 
   std::string getTypeMetaData(llvm::Type *t, const llvm::DataLayout *dl);

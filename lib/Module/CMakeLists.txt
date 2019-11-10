@@ -8,8 +8,8 @@
 #===------------------------------------------------------------------------===#
 set(KLEE_MODULE_COMPONENT_SRCS
   Checks.cpp
-  ExtractTypeMetaPass
   FunctionAlias.cpp
+  ExtractTypeMetaPass.cpp
   InstructionInfoTable.cpp
   InstructionOperandTypeCheckPass.cpp
   IntrinsicCleaner.cpp
