@@ -139,7 +139,7 @@ namespace klee {
     bool link(std::vector<std::unique_ptr<llvm::Module>> &modules,
               const std::string &entryPoint);
 
-    void instrument(const Interpreter::ModuleOptions &opts);
+    void instrument(const Interpreter::ModuleOptions &opts, InterpreterHandler *ih);
 
     /// Return an id for the given constant, creating a new one if necessary.
     unsigned getConstantID(llvm::Constant *c, KInstruction* ki);

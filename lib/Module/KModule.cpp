@@ -222,12 +222,14 @@ bool KModule::link(std::vector<std::unique_ptr<llvm::Module>> &modules,
   return modules.size() != numRemainingModules;
 }
 
-void KModule::instrument(const Interpreter::ModuleOptions &opts) {
+void KModule::instrument(const Interpreter::ModuleOptions &opts, InterpreterHandler *ih) {
   // Inject checks prior to optimization... we also perform the
   // invariant transformations that we will end up doing later so that
   // optimize is seeing what is as close as possible to the final
   // module.
   legacy::PassManager pm;
+  // This pass will save type meta datas for struct informations.
+  pm.add(new ExtractTypeMetaCheck(ih));
   pm.add(new RaiseAsmPass());
 
   // This pass will scalarize as much code as possible so that the Executor

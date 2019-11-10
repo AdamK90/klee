@@ -487,7 +487,7 @@ Executor::Executor(LLVMContext &ctx, const InterpreterOptions &opts,
 
 llvm::Module *
 Executor::setModule(std::vector<std::unique_ptr<llvm::Module>> &modules,
-                    const ModuleOptions &opts) {
+                    const ModuleOptions &opts, InterpreterHandler *ih) {
   assert(!kmodule && !modules.empty() &&
          "can only register one module"); // XXX gross
 
@@ -507,7 +507,7 @@ Executor::setModule(std::vector<std::unique_ptr<llvm::Module>> &modules,
   // 1.) Link the modules together
   while (kmodule->link(modules, opts.EntryPoint)) {
     // 2.) Apply different instrumentation
-    kmodule->instrument(opts);
+    kmodule->instrument(opts, ih);
   }
 
   // 3.) Optimise and prepare for KLEE

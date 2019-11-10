@@ -11,6 +11,7 @@
 #define KLEE_PASSES_H
 
 #include "klee/Config/Version.h"
+#include "klee/Interpreter.h"
 
 #include "llvm/ADT/Triple.h"
 #include "llvm/CodeGen/IntrinsicLowering.h"
@@ -29,6 +30,25 @@ class Type;
 } // namespace llvm
 
 namespace klee {
+
+/// ExtractTypeMetaCheck - This is a non-modifying pass that extracts
+/// the type informations to help the ktest-tool print the test values in
+/// a readable way.
+class ExtractTypeMetaCheck : public llvm::ModulePass {
+  static char ID;
+  static const char* KLEE_META_FILENAME;
+  std::unique_ptr<llvm::raw_fd_ostream> metaOutFile;
+  bool isEndiannessWritten;
+
+  std::string getTypeMetaData(llvm::Type *t, const llvm::DataLayout *dl);
+  std::string getSymbolicName(llvm::CallInst *ci);
+  llvm::Type* getSymbolicType(llvm::CallInst *ci);
+  void writeLine(std::string line);
+
+public:
+  ExtractTypeMetaCheck(InterpreterHandler *ih);
+  virtual bool runOnModule(llvm::Module &M);
+};
 
 /// RaiseAsmPass - This pass raises some common occurences of inline
 /// asm which are used by glibc into normal LLVM IR.
